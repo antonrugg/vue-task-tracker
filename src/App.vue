@@ -1,7 +1,9 @@
 <template>
 <div class="container">
   <Header title="Task Tracker"/>  
-  <Tasks :tasks="tasks" />
+  <Tasks @delete-task="deleteTask"
+         @toggle-reminder="toggleReminder" 
+           :tasks="tasks" />
 </div>
 </template>
 
@@ -19,6 +21,17 @@ export default {
   data() {
     return {
       tasks: []
+    }
+  },
+  methods: {
+    deleteTask(id){
+      if(confirm ('Are you sure?')){
+        this.tasks = this.tasks.filter((task) => task.id !== id)
+      }
+    },
+    toggleReminder(id){
+      this.tasks = this.tasks.map((task) => task.id === id ? {...task, reminder: !task.reminder} : task)
+      console.log({...this.task})
     }
   },
 
@@ -54,7 +67,7 @@ export default {
   padding: 0;
 }
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 .container {
   max-width: 500px;
